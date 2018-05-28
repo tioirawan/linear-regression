@@ -1,0 +1,12 @@
+{
+  "name": "linear-regression",
+  "main": "index.html",
+  "version": "0.0.1",
+  "description": "",
+  "lib": [
+    "p5.js",
+    "p5.dom.js"
+  ],
+  "mainjs": "js/sketch.js",
+  "maincss": "css/style.css"
+}

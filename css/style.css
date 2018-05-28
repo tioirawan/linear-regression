@@ -1,0 +1,33 @@
+html, body {
+    margin: 0px;
+    height: 100%;
+}
+
+body {
+    background-color: #333;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    border-radius: 5px;
+    border: 1px solid #999
+}
+
+button {
+    -webkit-border-radius: 4;
+    -moz-border-radius: 4;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid #999;
+    font-family: Arial;
+    color: #ffffff;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+  
+button:hover {
+    background: #0000001e;
+}
