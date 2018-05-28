@@ -37,16 +37,15 @@ function draw() {
     background("#333")
 
     if (x_vals.length) {
-        const xs = tf.tensor1d(x_vals)
-        const ys = tf.tensor1d(y_vals)
+        tf.tidy(() => {
+            const xs = tf.tensor1d(x_vals)
+            const ys = tf.tensor1d(y_vals)
 
-        optimizer.setLearningRate(lrSlider.value())
+            optimizer.setLearningRate(lrSlider.value())
 
-        cost = optimizer.minimize(() => tf.losses.meanSquaredError(ys, predict(xs)), true).dataSync()
-
-        xs.dispose()
-        ys.dispose()
-    }else {
+            cost = optimizer.minimize(() => tf.losses.meanSquaredError(ys, predict(xs)), true).dataSync()
+        })
+    } else {
         noStroke()
         fill("#999")
         textSize(20)
