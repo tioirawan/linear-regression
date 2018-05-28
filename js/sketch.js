@@ -11,7 +11,7 @@ let isLooping = true
 let m, b, cost = 0
 
 async function setup() {
-    createCanvas(windowWidth * 0.8, windowHeight * 0.8).parent("canvas-content")
+    createCanvas(windowWidth * (windowWidth > 450 ? 0.8 : 0.9), windowHeight * 0.8).parent("canvas-content")
 
     // init slope and y intercept
     m = tf.variable(tf.scalar(0))
@@ -22,7 +22,7 @@ async function setup() {
     resetButton = select("#reset-btn")
 
     lrSlider.value(learning_rate)
-    
+
     pauseButton.mousePressed(() => {
         if (isLooping) {
             noLoop()
@@ -42,7 +42,7 @@ async function setup() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth * 0.7, windowHeight * 0.8)
+    resizeCanvas(windowWidth * (windowWidth > 450 ? 0.8 : 0.9), windowHeight * 0.8)
 }
 
 function draw() {
