@@ -17,7 +17,7 @@ async function setup() {
     m = tf.variable(tf.scalar(0))
     b = tf.variable(tf.scalar(0))
 
-    lrSlider = createSlider(0, 1, learning_rate, 0.1)
+    lrSlider = createSlider(0, 1, learning_rate, 0.001)
     pauseButton = createButton("Pause!")
 
     pauseButton.mousePressed(() => {
