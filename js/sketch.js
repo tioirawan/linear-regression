@@ -4,22 +4,25 @@ const y_vals = []
 const learning_rate = 0.3
 const optimizer = tf.train.sgd(learning_rate)
 
-let lrSlider, pauseButton
+let lrSlider, pauseButton, resetButton
 let isLooping = true
 
 // slope and y itercept
 let m, b, cost = 0
 
 async function setup() {
-    createCanvas(windowWidth * 0.7, windowHeight * 0.8)
+    createCanvas(windowWidth * 0.8, windowHeight * 0.8).parent("canvas-content")
 
     // init slope and y intercept
     m = tf.variable(tf.scalar(0))
     b = tf.variable(tf.scalar(0))
 
-    lrSlider = createSlider(0, 1, learning_rate, 0.001)
-    pauseButton = createButton("Pause!")
+    lrSlider = select("#lr-slider")
+    pauseButton = select("#pause-btn")
+    resetButton = select("#reset-btn")
 
+    lrSlider.value(learning_rate)
+    
     pauseButton.mousePressed(() => {
         if (isLooping) {
             noLoop()
@@ -31,17 +34,26 @@ async function setup() {
 
         isLooping = !isLooping
     })
+
+    resetButton.mousePressed(() => {
+        x_vals.splice(0, x_vals.length)
+        y_vals.splice(0, y_vals.length)
+    })
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth * 0.7, windowHeight * 0.8)
 }
 
 function draw() {
     background("#333")
 
+    optimizer.setLearningRate(lrSlider.value())
+
     if (x_vals.length) {
         tf.tidy(() => {
             const xs = tf.tensor1d(x_vals)
             const ys = tf.tensor1d(y_vals)
-
-            optimizer.setLearningRate(lrSlider.value())
 
             cost = optimizer.minimize(() => tf.losses.meanSquaredError(ys, predict(xs)), true).dataSync()
         })
@@ -49,7 +61,8 @@ function draw() {
         noStroke()
         fill("#999")
         textSize(20)
-        text("Click Anywhere!", width * 0.67, height * 0.25)
+        textAlign(CENTER)
+        text("Click Anywhere!", width / 2, height * 0.25)
     }
 
     drawGraph()
@@ -93,6 +106,7 @@ function drawText() {
     fill("#999")
     noStroke()
     textSize(15)
+    textAlign(LEFT)
     text(`Learning Rate : ${optimizer.learningRate}`, 2, height - 50)
     text(`Cost : ${cost}`, 2, height - 35)
     text(`m : ${m.dataSync()}`, 2, height - 20)
