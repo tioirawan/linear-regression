@@ -8,7 +8,7 @@ let lrSlider, pauseButton, resetButton
 let isLooping = true
 
 // slope and y itercept
-let m, b, cost = 0
+let m, b, loss = 0
 
 async function setup() {
     createCanvas(windowWidth * (windowWidth > 450 ? 0.8 : 0.9), windowHeight * 0.8).parent("canvas-content")
@@ -55,7 +55,7 @@ function draw() {
             const xs = tf.tensor1d(x_vals)
             const ys = tf.tensor1d(y_vals)
 
-            cost = optimizer.minimize(() => tf.losses.meanSquaredError(ys, predict(xs)), true).dataSync()
+            loss = optimizer.minimize(() => tf.losses.meanSquaredError(ys, predict(xs)), true).dataSync()
         })
     } else {
         noStroke()
@@ -74,10 +74,6 @@ function draw() {
 function predict(x) {
     return x.mul(m).add(b) // y = mx + b
 }
-
-// function loss(guess, label) {
-//     return guess.sub(label).square().mean() // mean squared error
-// }
 
 function mouseClicked() {
     // make sure to just click inside the canvas
@@ -108,7 +104,7 @@ function drawText() {
     textSize(15)
     textAlign(LEFT)
     text(`Learning Rate : ${optimizer.learningRate}`, 2, height - 50)
-    text(`Cost : ${cost}`, 2, height - 35)
+    text(`Loss : ${loss}`, 2, height - 35)
     text(`m : ${m.dataSync()}`, 2, height - 20)
     text(`b : ${b.dataSync()}`, 2, height - 5)
 }
